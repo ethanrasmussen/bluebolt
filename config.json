@@ -1,3 +1,4 @@
 {
-  "servo_pin": 13
+  "servo_pin": 13,
+  "update_delay": 30
 }

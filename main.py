@@ -1,5 +1,12 @@
 import bt_discover as btd
 import servo_op as sop
+import json, time
+
+
+# get delay time from config
+with open('config.json') as f:
+    data = json.load(f)
+bt_delay = int(data['update_delay'])
 
 
 def main_menu():
@@ -61,7 +68,7 @@ def add_bt_device():
         bt_name = input("Now, please enter the name as well: ")
     try:
         with open('whitelist.txt', 'a') as f:
-            new_device = [f"{bt_addr} - {bt_name}"]
+            new_device = [f"\n{bt_addr} - {bt_name}"]
             f.writelines(new_device)
         print("Device added! Enter any key to return to whitelist menu.")
         input()
@@ -88,7 +95,41 @@ def remove_bt_device(wl_lines):
 
 
 def run_script():
-    pass
+    # get deadbolt's current state
+    is_locked = input("Is the deadbolt locked? (Y/N): ")
+    if is_locked == "Y":
+        DEADBOLT_LOCK_STATE = True
+    elif is_locked == "N":
+        DEADBOLT_LOCK_STATE = False
+    else:
+        print("Improper input. Click any key to return to the main menu.")
+        input()
+        print("\n\n\n\n\n\n\n")
+        main_menu()
+    # begin infinite script
+    running = True
+    print("\n\n\n\n\n\n\n")
+    while running:
+        try:
+            print("Beginning scan...")
+            if btd.check_whitelist():
+                print("Whitelisted device in range!")
+                if DEADBOLT_LOCK_STATE is True:
+                    sop.open_bolt()
+                    print("Unlocked deadbolt.")
+                    DEADBOLT_LOCK_STATE = False
+                    print(f"Waiting for {bt_delay} seconds...")
+                    time.sleep(bt_delay)
+                    print("\n\n")
+            else:
+                print("Whitelisted device not found or has left detectable area.")
+                if DEADBOLT_LOCK_STATE is False:
+                    sop.close_bolt()
+                    print("Locked deadbolt.")
+                    DEADBOLT_LOCK_STATE = True
+                    print("\n\n")
+        except KeyboardInterrupt:
+            running = False
 
 
 
