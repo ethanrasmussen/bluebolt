@@ -1,4 +1,6 @@
 {
   "servo_pin": 13,
-  "update_delay": 30
+  "update_delay": 30,
+  "opened_pos_dutycycle": 2.5,
+  "closed_pos_dutycycle": 12.5
 }
