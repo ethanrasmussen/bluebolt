@@ -34,7 +34,7 @@ def edit_whitelist():
         wl = f.readlines()
         line_num = 1
         for line in wl:
-            print(f"{line_num} || {line}")
+            print("{} || {}".format(line_num, line))
             line_num+=1
     print("------------------")
     print(" 1. Add Device")
@@ -68,7 +68,7 @@ def add_bt_device():
         bt_name = input("Now, please enter the name as well: ")
     try:
         with open('whitelist.txt', 'a') as f:
-            new_device = [f"\n{bt_addr} - {bt_name}"]
+            new_device = ["\n{} - {}".format(bt_addr, bt_name)]
             f.writelines(new_device)
         print("Device added! Enter any key to return to whitelist menu.")
         input()
@@ -118,7 +118,7 @@ def run_script():
                     sop.open_bolt()
                     print("Unlocked deadbolt.")
                     DEADBOLT_LOCK_STATE = False
-                    print(f"Waiting for {bt_delay} seconds...")
+                    print("Waiting for {} seconds...".format(bt_delay))
                     time.sleep(bt_delay)
                     print("\n\n")
             else:
