@@ -13,7 +13,7 @@ close_pos = data['closed_pos_dutycycle']
 # set up GPIO for movement
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(pin, GPIO.OUT)
-pwm = GPIO.pwm(pin, 50)
+pwm = GPIO.PWM(pin, 50)
 pwm.start(0)
 
 
