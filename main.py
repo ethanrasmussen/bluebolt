@@ -28,7 +28,7 @@ def edit_whitelist():
         line_num = 1
         for line in wl:
             print(f"{line_num} || {line}")
-            line_num+1
+            line_num+=1
     print("------------------")
     print(" 1. Add Device")
     print(" 2. Delete Device")
@@ -50,19 +50,22 @@ def edit_whitelist():
 
 def add_bt_device():
     print("\n\n\n\n\n\n")
-    print("--- NEARBY DEVICES: ---")
+    print("--- SCANNING NEARBY: ---")
     btd.print_nearby()
-    print("-----------------------")
+    print("------------------------")
     add_opt = input("Enter 'A' to scan again, otherwise, enter the BT address of the device you'd like to add: ")
     if add_opt == "A":
         add_bt_device()
     else:
         bt_addr = add_opt
-    bt_name = input("Now, please enter the name as well: ")
+        bt_name = input("Now, please enter the name as well: ")
     try:
         with open('whitelist.txt', 'a') as f:
             new_device = [f"{bt_addr} - {bt_name}"]
             f.writelines(new_device)
+        print("Device added! Enter any key to return to whitelist menu.")
+        input()
+        edit_whitelist()
     except:
         print("Something went wrong, enter any key to return to the main menu.")
         input()
@@ -72,9 +75,12 @@ def add_bt_device():
 def remove_bt_device(wl_lines):
     del_dev = input("Enter the number of the device you'd like to remove: ")
     try:
-        wl_lines.pop(int(del_dev))
+        wl_lines.pop(int(del_dev)-1)
         with open("whitelist.txt", 'w') as f:
             f.writelines(wl_lines)
+        print("Device removed. Press any key to return to whitelist menu.")
+        input()
+        edit_whitelist()
     except:
         print("Something went wrong, enter any key to return to the main menu.")
         input()
@@ -83,3 +89,9 @@ def remove_bt_device(wl_lines):
 
 def run_script():
     pass
+
+
+
+# run program
+if __name__ == "__main__":
+    main_menu()

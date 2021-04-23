@@ -1,4 +1,4 @@
-import RPi.GPIO as GPIO
+#import RPi.GPIO as GPIO
 from time import sleep
 import json
 
@@ -9,10 +9,10 @@ with open('config.json') as f:
 pin = int(data['servo_pin'])
 
 # set up GPIO for movement
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(pin, GPIO.OUT)
-pwm = GPIO.pwm(pin, 50)
-pwm.start(0)
+# GPIO.setmode(GPIO.BCM)
+# GPIO.setup(pin, GPIO.OUT)
+# pwm = GPIO.pwm(pin, 50)
+# pwm.start(0)
 # TODO: set intial position for full turn
 
 
